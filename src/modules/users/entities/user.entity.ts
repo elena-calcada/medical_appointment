@@ -12,6 +12,7 @@ export class User {
   username: string;
   password: string;
   isAdmin: boolean;
+  createdAt: Date;
 
   private constructor(props: IUser) {
     this.id = randomUUID();
@@ -19,6 +20,7 @@ export class User {
     this.username = props.username;
     this.password = props.password;
     this.isAdmin = false;
+    this.createdAt = new Date();
   }
 
   static create(props: IUser) {
