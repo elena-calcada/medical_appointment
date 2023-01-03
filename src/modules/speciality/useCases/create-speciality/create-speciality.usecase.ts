@@ -1,5 +1,6 @@
+import { CustomError } from "../../../../error/custom.error";
 import { Speciality } from "../../entities/speciality.entity";
-import { ISpecialityRepository } from "../../repositories/iusers.repository";
+import { ISpecialityRepository } from "../../repositories/ispeciality.repository";
 
 type SpecialityRequest = {
   name: string;
@@ -13,6 +14,12 @@ export class CreateSpecialityUseCase {
 
   async execute(data: SpecialityRequest) {
     const speciality = Speciality.create(data);
+
+    const specialityExists = await this.specialityRepository.findByName(data.name);
+
+    if (specialityExists) {
+      throw new CustomError("Speciality already exists!");
+    }
 
     const specialityCreated = await this.specialityRepository.save(speciality);
 

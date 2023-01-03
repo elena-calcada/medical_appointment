@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { ParameterRequiredError } from "../../../error/parameter-required.error";
 
 type ISpeciality = {
   name: string;
@@ -20,7 +21,7 @@ export class Speciality {
 
   static create(props: ISpeciality) {
     if (!props.name) {
-      throw new Error('Speciality name is required!');
+      throw new ParameterRequiredError("Name is required!", 422);
     }
 
     const speciality = new Speciality(props);

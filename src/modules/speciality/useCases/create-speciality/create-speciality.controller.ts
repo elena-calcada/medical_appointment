@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ISpecialityRepository } from "../../repositories/iusers.repository";
+import { ISpecialityRepository } from "../../repositories/ispeciality.repository";
 import { CreateSpecialityUseCase } from "./create-speciality.usecase";
 
 export class CreateSpecialityController {

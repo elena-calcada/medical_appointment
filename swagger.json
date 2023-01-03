@@ -1,0 +1,144 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Serviço de agendamento de consultas",
+    "description": "Essa API é responsável pelo agendamento de consultas",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/specialities": {
+      "post": {
+        "tags": [
+          "Speciality"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Cadastro de especialidade",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpecialityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialityResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Autenticação do usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token gerado"
+          },
+          "401": {
+            "description": "Mensagem de erro"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SpecialityRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome da especialidade",
+            "example": "NAME_TEST"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição da especialidade",
+            "example": "DESCRIPTION_TEST"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
+      "SpecialityResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identificação única da especialidade cadastrada",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome da especialidade",
+            "example": "NAME_TEST"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição da especialidade",
+            "example": "DESCRIPTION_TEST"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Data de criação da especialidade",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username de login",
+            "example": "username_test"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password de login",
+            "example": "password_test"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "Autenticação da API",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "tokenUrl": "http://localhost:3000/login"
+      }
+    }
+  }
+}

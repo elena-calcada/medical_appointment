@@ -7,7 +7,7 @@ export class UserPrismaRepository implements IUserRepository {
     const user = await prismaClient.user.findUnique({
       where: {
         username,
-      }
+      },
     });
     return user || undefined;
   }
@@ -19,6 +19,16 @@ export class UserPrismaRepository implements IUserRepository {
         password: data.password,
       }
     });
+    return user;
+  }
+
+  async findById(id: string): Promise<User | null> {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
     return user;
   }
 
