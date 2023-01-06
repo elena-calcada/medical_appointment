@@ -19,12 +19,18 @@ export class UserMemoryRepository implements IUserRepository {
     return UserMemoryRepository.instance;
   }
 
-  async findByUsername(username: string) {
-    return this.users.find(user => user.username === username);
+  async findByUsername(username: string): Promise<User | null> {
+    const user = this.users.find(user => user.username === username);
+    return user || null;
   }
 
   async save(data: User) {
     this.users.push(data);
     return data;
+  }
+
+  async findById(id: string): Promise<User | null> {
+    const user = this.users.find(user => user.id === id);
+    return user || null;
   }
 }
