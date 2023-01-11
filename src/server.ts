@@ -6,16 +6,16 @@ import { userRouter } from './routes/user.routes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
 import { doctorRouter } from './routes/doctor.routes';
+import { doctorInfoRouter } from './routes/doctor-info.routes';
+import { router } from './routes';
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(router);
 
-app.use(userRouter);
-app.use(specialityRouter);
-app.use(doctorRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/', (request, response) => {
   return response.send('A aplicação está funcionando!');
