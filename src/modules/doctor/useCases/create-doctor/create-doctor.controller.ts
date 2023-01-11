@@ -4,7 +4,7 @@ import { IUserRepository } from "../../../users/repositories/iuser.repository";
 import { IDoctorRepository } from "../../repositories/idoctor.repository";
 import { CreateDoctorUseCase } from "./create-doctor.usecase";
 
-export class CreateDoctorcontroller {
+export class CreateDoctorController {
   constructor(
     private userRepository: IUserRepository,
     private doctorRepository: IDoctorRepository,
