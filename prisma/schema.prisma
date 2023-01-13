@@ -17,7 +17,8 @@ model User {
   password String
   isAdmin  Boolean @default(false)
 
-  doctor Doctor?
+  doctor  Doctor?
+  Patient Patient?
 
   createdAt DateTime @default(now())
 
@@ -62,4 +63,15 @@ model DoctorInfo {
   doctorId String @unique
 
   @@map("doctor_info")
+}
+
+model Patient {
+  id       String @id @default(uuid())
+  email    String @unique
+  document String @unique
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  @@map("patients")
 }

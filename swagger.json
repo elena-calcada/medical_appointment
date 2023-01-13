@@ -118,6 +118,31 @@
           }
         }
       }
+    },
+    "/patients": {
+      "post": {
+        "description": "Cadastro de um paciente",
+        "tags": [
+          "patients"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Paciente criado com sucesso"
+          },
+          "400": {
+            "description": "Erro de cadastro"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -243,6 +268,37 @@
             "type": "number",
             "description": "Valor do atendimento",
             "example": "150"
+          }
+        }
+      },
+      "PatientRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name do paciente",
+            "example": "name_test"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username do paciente",
+            "example": "username_test"
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do paciente",
+            "example": "password_test"
+          },
+          "email": {
+            "type": "string",
+            "description": "E-mail do paciente",
+            "example": "example@mail.com"
+          },
+          "document": {
+            "type": "string",
+            "description": "Documento do paciente",
+            "example": "123456",
+            "min": 5
           }
         }
       }

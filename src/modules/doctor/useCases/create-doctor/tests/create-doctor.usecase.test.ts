@@ -46,6 +46,67 @@ describe('Create Doctor Use Case', () => {
     expect(doctorCreated).toHaveProperty('userId');
   });
 
+  test('Should not be able to create a new Doctor with invalid speciality', async () => {
+    const userRepository = new UserMemoryRepository();
+    const doctorRepository = new DoctorMemoryRepository();
+
+    const doctorMock: CreateDoctorRequest = {
+      name: 'name_test',
+      username: 'username_test',
+      password: 'password_test',
+      email: 'email@mail.com.br',
+      crm: '123456',
+      specialityId: 'INVALID_SPACIALITY_ID',
+    }
+
+    const createDoctorUseCase = new CreateDoctorUseCase(
+      userRepository,
+      doctorRepository,
+      specialityRepository
+    );
+
+    expect(async () => {
+      await createDoctorUseCase.execute(doctorMock);
+    }).rejects.toThrow('Speciality does not exists!');
+
+  });
+
+  test('Should not be able to create a new Doctor with username already exists', async () => {
+    const userRepository = new UserMemoryRepository();
+    const doctorRepository = new DoctorMemoryRepository();
+
+    const doctorMock: CreateDoctorRequest = {
+      name: 'name_test',
+      username: 'username_test',
+      password: 'password_test',
+      email: 'email@mail.com.br',
+      crm: '123456',
+      specialityId: speciality.id,
+    }
+
+    const doctorMockDuplicated: CreateDoctorRequest = {
+      name: 'name_duplicated',
+      username: 'username_test',
+      password: 'password_duplicated',
+      email: 'duplicated@mail.com.br',
+      crm: '654321',
+      specialityId: speciality.id,
+    }
+
+    const createDoctorUseCase = new CreateDoctorUseCase(
+      userRepository,
+      doctorRepository,
+      specialityRepository
+    );
+
+    await createDoctorUseCase.execute(doctorMock);
+
+    expect(async () => {
+      await createDoctorUseCase.execute(doctorMockDuplicated);
+    }).rejects.toThrow('Username already exists!');
+
+  });
+
   test('Should not be able to create a new Doctor with exists CRM', async () => {
     const userRepository = new UserMemoryRepository();
     const doctorRepository = new DoctorMemoryRepository();
@@ -80,29 +141,5 @@ describe('Create Doctor Use Case', () => {
       await createDoctorUseCase.execute(doctorMockDuplicated);
     }).rejects.toThrow('CRM already exists!');
 
-  });
-
-  test('Should not be able to create a new doctor with an invalid crm number', async () => {
-    const userRepository = new UserMemoryRepository();
-    const doctorRepository = new DoctorMemoryRepository();
-
-    const doctorMock: CreateDoctorRequest = {
-      name: 'name_test',
-      username: 'username_test',
-      password: 'password_test',
-      email: 'email@mail.com.br',
-      crm: '12345',
-      specialityId: speciality.id,
-    }
-
-    const createDoctorUseCase = new CreateDoctorUseCase(
-      userRepository,
-      doctorRepository,
-      specialityRepository
-    );
-
-    expect(async () => {
-      await createDoctorUseCase.execute(doctorMock);
-    }).rejects.toThrow('Invalid CRM!');
   });
 });
